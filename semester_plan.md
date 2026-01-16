@@ -12,6 +12,32 @@ I will work around 15 hours a week, but five of those hours will be a meeting wi
 Here is the plan formatted in clean, organized Markdown. You can easily copy and paste this into any markdown editor (like Obsidian, Notion, or GitHub) to edit it as your semester progresses.
 
 ---
+-15 min meetings
+-con bon planning
+-diverse survey
+-motivation structure (time, money or both or something)
+-attach value to each task
+-interview about features, be ready to start developing after interviews
+
+goals:
+-figuring out features
+-develop an app
+-publish to app store
+-gain internal users (close friends)
+-gain beta users (don't ruin data, but may have bugs)
+-beta users like it, go to release
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 📅 BYU Winter Semester Project Plan: Student Organizer App
 
