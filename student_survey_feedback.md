@@ -1,1 +1,3 @@
-
+#Scott Harker (Personal Friend)
+## Freshman, Economics?, less about scheduling and more about learning long-term with deep learning
+Provided very good insight about how the problem isn't always that students need to schedule their time more effectively, but it's actually that students don't know how to learn effectively. They should be primed before classes, and review the material after and possibly do spaced review. This can be done with AI, but to set that up takes lots of time and effort so if the app already understood all of the classes and the AI knew what assignments are coming up, it could help them prepare for class, do their homework, protect free time, and learn in a truly meaningful way. 
