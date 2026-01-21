@@ -51,5 +51,6 @@
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plans to test Hypothesis'
 - Maybe I can make a sample image of what it could look like (upcoming tasks with priority based on class importance - or maybe desired grade, time estimated, and grade-weight) including new tasks that break down assignments, or help you know when to start studying for a test and then ask people if it would help them to be successful if they had a dashboard like that?
-- Is there a way that I could actually quickly show people what this would look like for their own schedule? 
+- Is there a way that I could actually quickly show people what this would look like for their own schedule?
+- It would have to know how many hours of homework time they have for the week (ideally each day) for it to be really effective. Because then it could break it into tasks to do each day depending on how much time they have. I still just want to make sure that it isn't making decisions for them though.  
 
