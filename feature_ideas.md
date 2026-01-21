@@ -33,7 +33,7 @@
 - Most students struggle to balance work, school, and social because they genuinely don't have enough time to do everything they want to. They overbook themselves every week
 - Most students don't work ahead of schedule when they should, because they are just trying to keep their head above water, and when nothing is immediately due, they finally get some treasured free-time
 - Most students have a desire to do well on an assignment until they get behind
-- Many students don't plan simply because it is not convenient to see what is coming up, and how long it will all take, and how important each thing is to their grade
+- Many students don't plan simply because it takes too long to see what is coming up, and how long it will all take, and how important each thing is to their grade
 - Many students would rather just see a dashboard of what is coming up so that they can work on that, but it would be nice for the dashboard to be more organized to what really matters and to sort of look ahead and have tasks like "study for test" in there.
 - Some students don't realize there are resources because they are scattered throughout BYU websites. (Financial, academic, career, health etc.)
 
