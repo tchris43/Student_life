@@ -22,6 +22,7 @@
 - How much will this affect my grade?
 - Auto-generate to-do list
 - Quick daily look (how do we cater better than learning suite and canvas?)
+- Catch-up Plan
 
 # Quality of Life
 - help point out resources available
