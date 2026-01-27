@@ -106,7 +106,11 @@ See `issues.md` for detailed breakdown and decision history.
 
 ## Resolved Issues
 
-- ✅ **Overdue display fixed** - Now filters past-due, shows "No due date" for missing dates
+- ✅ **Selector fixed** - Canvas uses `.due_date_display` not `.due_date`
+- ✅ **Date parsing fixed** - Canvas shows "Jan 27" without year; now adds current year automatically
+- ✅ **Past-due filtering** - Only shows assignments due today or later
+- ✅ **Clear button** - Wipe all data and re-scrape fresh
+- ✅ **Chrome caching issue** - Must toggle extension off/on after code changes
 
 ---
 
@@ -117,3 +121,14 @@ See `issues.md` for detailed breakdown and decision history.
 3. Click "Load unpacked" → select `extension/` folder
 4. Visit Canvas → check console (F12) for scraping logs
 5. Click extension icon to see results
+
+### After Making Code Changes
+**Important:** Chrome caches extension scripts. After editing code:
+1. Go to `chrome://extensions`
+2. **Toggle extension OFF then ON** (or click the reload ↻ button)
+3. **Hard refresh** the Canvas page (Ctrl+Shift+R)
+
+### Debugging the Popup
+1. Click extension icon to open popup
+2. Right-click inside popup → **Inspect**
+3. Check Console for `📚 POPUP DEBUG` messages

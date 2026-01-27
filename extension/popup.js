@@ -18,18 +18,29 @@ function loadAssignments() {
     chrome.storage.local.get(['assignments'], function (result) {
         const assignments = result.assignments || [];
 
+        // DEBUG: Log what we got from storage
+        console.log('📚 POPUP DEBUG - Assignments from storage:', assignments.length);
+        console.log('📚 POPUP DEBUG - First 3:', assignments.slice(0, 3));
+
         // Filter: only show assignments due today or in the future
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Start of today
+        console.log('📚 POPUP DEBUG - Today:', today.toISOString());
 
         const upcomingAssignments = assignments.filter(a => {
             // Keep if no due date (we'll show "No due date")
-            if (!a.dueDate) return true;
+            if (!a.dueDate) {
+                console.log(`📚 POPUP DEBUG - "${a.title}": No due date, keeping`);
+                return true;
+            }
 
             const dueDate = new Date(a.dueDate);
-            // Keep if due date is today or later
-            return dueDate >= today;
+            const keep = dueDate >= today;
+            console.log(`📚 POPUP DEBUG - "${a.title}": Due ${a.dueDate}, keep=${keep}`);
+            return keep;
         });
+
+        console.log('📚 POPUP DEBUG - After filter:', upcomingAssignments.length);
 
         displayAssignments(upcomingAssignments);
         updateStatus(upcomingAssignments.length, assignments.length);

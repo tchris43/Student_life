@@ -58,6 +58,34 @@
 - `popup.html` - Added Clear button
 - `popup.css` - Styled Clear button (red tint)
 
+### Issue 2b: Dates Parsing with Wrong Year (Follow-up) ✅ RESOLVED
+
+**Problem:** After fixing the selector, dates now show as "No due date" because they parsed with year 2001.
+
+**Why:** Canvas shows dates like "Jan 27" without a year. JavaScript's `new Date("Jan 27")` defaults to year 2001, which gets filtered out as past-due.
+
+**Debugging Process:**
+1. Console showed: `Parsed successfully: 2001-01-27...`
+2. Year 2001 passed the `> 2000` check but was filtered as past-due
+3. Assignments kept getting filtered out, showing empty in popup
+4. Added debug logging to popup.js — confirmed old data with 2001 dates still in storage
+5. Cleared storage and refreshed Canvas, but still showed 0 assignments
+6. Discovered Chrome was caching old extension scripts
+
+**Solution Implemented:**
+1. ✅ Reordered parsing logic: Try adding current year FIRST (before native parsing)
+2. ✅ Changed year check to `>= currentYear - 1`
+3. ✅ Added smart year detection: If date > 6 months in past, use next year
+4. ✅ Added debug logging to popup.js to trace storage → filter → display
+
+**Final Fix:**
+Chrome caches extension scripts aggressively. After code changes:
+1. Go to `chrome://extensions`
+2. **Toggle the extension OFF then ON** (or click reload button)
+3. Hard refresh Canvas page (Ctrl+Shift+R)
+
+**Lesson Learned:** Always fully reload the extension after code changes — page refresh alone doesn't reload content scripts!
+
 ---
 
 ## Issue 3: No Completion Status
