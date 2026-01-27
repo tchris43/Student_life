@@ -197,16 +197,9 @@
             return today.toISOString();
         }
 
-        // Try native Date parsing first
-        let parsed = new Date(dateStr);
-        if (!isNaN(parsed.getTime()) && parsed.getFullYear() > 2000) {
-            console.log(`   Parsed successfully: ${parsed.toISOString()}`);
-            return parsed.toISOString();
-        }
-
-        // If that failed, try adding current year (Canvas often shows "Jan 27" without year)
+        // First, try adding current year (Canvas often shows "Jan 27" without year)
         const currentYear = new Date().getFullYear();
-        parsed = new Date(`${dateStr} ${currentYear}`);
+        let parsed = new Date(`${dateStr} ${currentYear}`);
         if (!isNaN(parsed.getTime())) {
             // If date is in the past by more than 6 months, it's probably next year
             const sixMonthsAgo = new Date();
@@ -216,6 +209,13 @@
                 parsed = new Date(`${dateStr} ${currentYear + 1}`);
             }
             console.log(`   Parsed with year: ${parsed.toISOString()}`);
+            return parsed.toISOString();
+        }
+
+        // Fallback: try native Date parsing for full date strings (e.g., "January 27, 2026")
+        parsed = new Date(dateStr);
+        if (!isNaN(parsed.getTime()) && parsed.getFullYear() >= currentYear - 1) {
+            console.log(`   Parsed successfully: ${parsed.toISOString()}`);
             return parsed.toISOString();
         }
 
