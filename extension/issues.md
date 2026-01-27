@@ -22,7 +22,7 @@
 
 ---
 
-## Issue 2: All Assignments Show as "Overdue"
+## Issue 2: All Assignments Show as "Overdue" ✅ RESOLVED
 
 **Problem:** Every assignment displays "Overdue!" in the popup.
 
@@ -31,11 +31,32 @@
 - Not being parsed correctly (date format issues)
 - Stored as `null`, which JavaScript treats as epoch (1970)
 
-**Potential Solutions:**
-1. **Debug due date extraction** - Log what we're finding for due dates
-2. **Handle missing dates** - If no date, show "No due date" instead of "Overdue"
-3. **Check Canvas HTML** - Inspect the actual due date element structure
-4. **Use Canvas API** - More reliable than HTML scraping for dates
+**Options Considered:**
+1. Only show future assignments (filter out past-due)
+2. Show "No due date" for unknown dates
+3. Separate sections (Upcoming / No Date / Past Due)
+4. Debug first to find root cause
+5. Add "Clear Data" button to reset corrupted data
+
+**Debugging Process:**
+1. Added console logging to `parseAssignmentRow()` to see what was being found
+2. Console showed: `Due date element found: NO`
+3. Inspected Canvas HTML, found due dates use class `.due_date_display` not `.due_date`
+4. Updated selector to include `.due_date_display`
+5. Retested - dates now parsing correctly
+
+**Solution Implemented:**
+1. ✅ Fixed selector: Added `.due_date_display` to content.js
+2. ✅ Filter past-due: popup.js now only shows assignments due today or later
+3. ✅ Handle null dates: Shows "No due date" instead of "Overdue"
+4. ✅ Clear button: Added 🗑️ Clear button to wipe data and re-scrape
+5. ✅ Status indicator: Shows "X upcoming (Y past hidden)"
+
+**Files Changed:**
+- `content.js` - Updated selector, added debug logging
+- `popup.js` - Added filtering, null handling, clear function
+- `popup.html` - Added Clear button
+- `popup.css` - Styled Clear button (red tint)
 
 ---
 

@@ -47,7 +47,7 @@ extension/
 // Selectors used:
 '.assignment'           // Assignment row container
 '.ig-title'            // Assignment title
-'.due_date'            // Due date
+'.due_date_display'    // Due date (updated after debugging)
 '.points_possible'     // Point value
 ```
 
@@ -79,12 +79,17 @@ extension/
 ### Popup Flow
 1. User clicks extension icon
 2. `popup.js` loads assignments from `chrome.storage.local`
-3. Assignments sorted by due date (soonest first)
-4. Each assignment rendered as a card with:
+3. **Filters out past-due assignments** (only shows today and future)
+4. Assignments sorted by due date (soonest first, no-date items at end)
+5. Each assignment rendered as a card with:
    - Title
    - Course name
-   - Due date (formatted: "Due in X days", "Due tomorrow", etc.)
+   - Due date (formatted: "Due in X days", "Due tomorrow", or "No due date")
    - Red styling if due within 2 days
+
+### Popup Controls
+- **🔄 Refresh** - Reload assignments from storage
+- **🗑️ Clear** - Wipe all stored assignments and start fresh
 
 ### Priority Calculation (Current)
 Currently just sorts by due date. Future: combine due date + points + grade impact.
@@ -93,12 +98,15 @@ Currently just sorts by due date. Future: combine due date + points + grade impa
 
 ## Current Limitations
 
-See `issues.md` for detailed breakdown and solutions.
+See `issues.md` for detailed breakdown and decision history.
 
 - Calendar scraping not working
 - No completion status (doesn't know what's submitted)
-- All assignments show as "Overdue" if no date parsed
 - No Learning Suite support yet
+
+## Resolved Issues
+
+- ✅ **Overdue display fixed** - Now filters past-due, shows "No due date" for missing dates
 
 ---
 

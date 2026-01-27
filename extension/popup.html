@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Life Planner</title>
   <link rel="stylesheet" href="popup.css">
 </head>
+
 <body>
   <div class="container">
     <header>
       <h1>📚 Student Life</h1>
       <p class="subtitle">Your assignment planner</p>
     </header>
-    
+
     <section class="status">
       <div id="sync-status">
         <span class="status-dot"></span>
         <span id="status-text">Ready to sync</span>
       </div>
     </section>
-    
+
     <section class="assignments">
       <h2>Upcoming Assignments</h2>
       <div id="assignment-list">
         <p class="placeholder">Visit Canvas to sync your assignments</p>
       </div>
     </section>
-    
+
     <footer>
       <button id="refresh-btn">🔄 Refresh</button>
+      <button id="clear-btn">🗑️ Clear</button>
     </footer>
   </div>
-  
+
   <script src="popup.js"></script>
 </body>
+
 </html>

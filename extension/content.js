@@ -76,7 +76,7 @@
     function parseAssignmentRow(row) {
         try {
             const titleEl = row.querySelector('.ig-title, .assignment-name, a.ig-title');
-            const dueDateEl = row.querySelector('.due_date, .assignment-date, .date-due');
+            const dueDateEl = row.querySelector('.due_date_display, .due_date, .assignment-date, .date-due, .datetext, span.date');
             const pointsEl = row.querySelector('.points_possible, .points');
 
             const title = titleEl?.textContent?.trim();
@@ -86,11 +86,18 @@
             const courseEl = document.querySelector('.mobile-header-title, #breadcrumbs li:nth-child(2) a, .course-title');
             const course = courseEl?.textContent?.trim() || 'Unknown Course';
 
-            // Parse due date
+            // Parse due date with debug logging
             let dueDate = null;
-            if (dueDateEl) {
-                const dateText = dueDateEl.textContent?.trim();
-                dueDate = parseDateString(dateText);
+            const rawDateText = dueDateEl?.textContent?.trim();
+
+            // DEBUG: Log what we're finding
+            console.log(`📚 DEBUG - Assignment: "${title}"`);
+            console.log(`   Due date element found: ${dueDateEl ? 'YES' : 'NO'}`);
+            console.log(`   Raw date text: "${rawDateText || 'null'}"`);
+
+            if (rawDateText) {
+                dueDate = parseDateString(rawDateText);
+                console.log(`   Parsed date: ${dueDate || 'FAILED TO PARSE'}`);
             }
 
             // Parse points
@@ -175,11 +182,8 @@
         // Clean up the string
         dateStr = dateStr.replace(/^Due:?\s*/i, '').trim();
 
-        // Try native Date parsing
-        const parsed = new Date(dateStr);
-        if (!isNaN(parsed.getTime())) {
-            return parsed.toISOString();
-        }
+        // DEBUG: Log what we're trying to parse
+        console.log(`   Attempting to parse: "${dateStr}"`);
 
         // Handle relative dates like "Tomorrow", "Today"
         const today = new Date();
@@ -193,6 +197,29 @@
             return today.toISOString();
         }
 
+        // Try native Date parsing first
+        let parsed = new Date(dateStr);
+        if (!isNaN(parsed.getTime()) && parsed.getFullYear() > 2000) {
+            console.log(`   Parsed successfully: ${parsed.toISOString()}`);
+            return parsed.toISOString();
+        }
+
+        // If that failed, try adding current year (Canvas often shows "Jan 27" without year)
+        const currentYear = new Date().getFullYear();
+        parsed = new Date(`${dateStr} ${currentYear}`);
+        if (!isNaN(parsed.getTime())) {
+            // If date is in the past by more than 6 months, it's probably next year
+            const sixMonthsAgo = new Date();
+            sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+            if (parsed < sixMonthsAgo) {
+                parsed = new Date(`${dateStr} ${currentYear + 1}`);
+            }
+            console.log(`   Parsed with year: ${parsed.toISOString()}`);
+            return parsed.toISOString();
+        }
+
+        console.log(`   Failed to parse date: "${dateStr}"`);
         return null;
     }
 
