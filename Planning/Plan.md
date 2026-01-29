@@ -1,98 +1,64 @@
-# Architecture Plan
+# Plan
 
-## How can we get the UI of a web app, but the data access of a browser extension?
-
-**Answer: Use both together in a hybrid architecture.**
-
-```
-┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
-│ Browser         │      │ Backend/        │      │ Web App         │
-│ Extension       │ ───► │ Database        │ ◄─── │ (full UI)       │
-│ (data scraper)  │      │ (stores data)   │      │                 │
-└─────────────────┘      └─────────────────┘      └─────────────────┘
-```
-
-### How it works:
-
-1. **Extension** runs silently in the background
-   - Detects when user visits Canvas or Learning Suite
-   - Automatically scrapes assignments, due dates, syllabus info
-   - Sends data to backend database
-   - Minimal UI—just a sync status icon
-
-2. **Web App** is where students actually use the planner
-   - Full dashboard with weekly view, priority lists, etc.
-   - Pulls data that the extension collected
-   - Handles all AI processing, priority calculation, task breakdown
-
-3. **User experience**
-   - Install extension → it starts learning their classes automatically
-   - Open web app → everything is already synced
-   - Zero manual data entry required
+High-level steps to achieve the Student Life vision.
 
 ---
 
-## Extension UI Options
-
-| Option | Pros | Cons |
-|--------|------|------|
-| **Popup panel** | Quick "today's tasks" view | Small space |
-| **Side Panel** | Persistent sidebar alongside Canvas/LS | Chrome only |
-| **New tab override** | Full dashboard when opening new tab | Only see it on new tabs |
-| **Injected widget** | Floating tasks on course pages | Could feel intrusive |
+## Step 1: Chrome Extension Setup ✅ COMPLETE
+Use a Chrome extension to get in a position to access Canvas data.
+- Extension scaffold built
+- Runs on Canvas pages
+- Can read page content and store data locally
 
 ---
 
-## Mobile Strategy
+## Step 2: Scrape Required Data (IN PROGRESS)
+Capture the data needed to power the planner.
 
-Since the extension scrapes data to a **central database**, mobile becomes much simpler.
+### Must Have:
+- **Due dates** - When each assignment is due
+- **Time estimate info** - Data that helps estimate how long tasks will take
+  - Assignment type (quiz, paper, project, reading, etc.)
+  - Point value (often correlates with effort)
+  - Assignment description/instructions
 
-### Option 1: Mobile Web App (PWA)
-- Same web app, responsive design for mobile
-- Add to home screen for app-like experience
-- **Pros**: One codebase, instant updates, works on any device
-- **Cons**: Slightly less native feel
-
-### Option 2: Native App (React Native / Flutter)
-- Dedicated iOS/Android apps
-- **Pros**: Better performance, push notifications, native feel
-- **Cons**: More dev work, app store approval, two codebases (unless cross-platform)
-
-### Option 3: API-First Approach (Recommended)
-- Build a REST API that serves the scraped data
-- Web app, mobile web, and future native apps all consume the same API
-- **Pros**: Maximum flexibility, add any client later
-- **Cons**: Slightly more upfront work
-
-### Key Insight: Data Already in the Cloud
-Since the browser extension syncs to a central database:
-- Mobile doesn't need to scrape anything
-- Just reads from the same database the web app uses
-- Students can check their plan on phone without needing a laptop
-
-```
-┌──────────────┐
-│ Extension    │───┐
-│ (scrapes)    │   │     ┌─────────────┐
-└──────────────┘   ├───► │  Database   │
-                   │     │  (central)  │
-┌──────────────┐   │     └─────────────┘
-│ Web App      │◄──┤            │
-│ (laptop)     │   │            │
-└──────────────┘   │            ▼
-                   │     ┌─────────────┐
-┌──────────────┐   │     │   API       │
-│ Mobile App   │◄──┴─────│  (serves)   │
-│ (phone)      │         └─────────────┘
-└──────────────┘
-```
+### Nice to Have:
+- **Points** - For grade impact calculation (capture now for later use)
 
 ---
 
-## Recommended MVP Path
+## Step 3: Structured Data Storage
+Store scraped data in a structured, parseable format.
 
-1. **Phase 1**: Chrome extension + Web app (desktop focus)
-2. **Phase 2**: Make web app responsive / PWA for mobile
-3. **Phase 3**: Native mobile apps if needed
+### Data to Store per Assignment:
+- **Name** - Assignment title
+- **Due date** - When it's due
+- **Source info** - Where the data came from:
+  - Syllabus content
+  - Assignment page content
+  - Linked pages from the assignment
 
-This gets you to market fastest while keeping mobile as an easy add-on.
+### Storage Architecture:
+1. **Store raw scraped pages separately** - Keep syllabus, assignment pages, and linked pages in distinct locations
+2. **Parse and combine per class** - Aggregate all data relating to one course into a unified structure
+3. **Easy to query** - Format that allows quick lookup and filtering
+
+---
+
+## Step 4: Gather User Availability
+Collect information about how many hours the user can work each day of the week.
+
+---
+
+## Step 5: Get Time Estimates
+Estimate how long each assignment will take to complete.
+
+---
+
+## Step 6: Display Weekly Task Overview
+Show upcoming tasks for the current week with due dates and estimated time required. Display upcoming big tasks from the following week with time estimates and due dates.
+
+---
+
+## Step 7: Prioritize and Schedule Tasks
+For each day of the week, check available time. Prioritize tasks based on due date proximity and time required. Schedule top-priority tasks that fit into available time. If total task time exceeds available time, identify which assignments should receive reduced effort and display adjusted time allocations for each day.

@@ -2,90 +2,59 @@
 
 **Goal**: Build an app that helps BYU students manage their academic workload by breaking down big assignments, prioritizing tasks, and preventing last-minute cramming.
 
-**Last Updated**: January 26, 2026
+**Last Updated**: January 28, 2026
 
 ---
 
-## Key Files in Repo
-
-### Planning & Vision
-- `vision.md` - Core problem statement and product philosophy
-- `Feedback/student_survey_feedback.md` - User research insights from student interviews
-- `Planning/Brainstorm.md` - Summarized ideas on data access, priority calculation, and UI
-- `Planning/Plan.md` - Architecture decisions and mobile strategy
-- `image.png` - Mockup of weekly planner dashboard
-
-### Extension (MVP)
-- `extension/manifest.json` - Chrome extension configuration
-- `extension/content.js` - Scrapes Canvas pages for assignments
-- `extension/popup.html/js/css` - Extension popup UI
-- `extension/README.md` - How the extension works
-- `extension/issues.md` - Running log of bugs, debugging, and solutions
+## Vision (from vision.md)
+- Help students complete small tasks on time while looking ahead at big assignments
+- AI-suggested daily task breakdown based on available hours
+- Prioritize by: due date + time required + grade impact
+- Enhance learning, not replace it — focus on mastery, not just grades
 
 ---
 
-## Core Problem
-Students focus on "small fires" (urgent tasks) and neglect big assignments until it's too late, leading to cramming and mediocre work.
+## Current Plan (3 Steps Defined)
 
-## Solution
-AI-powered weekly planner that:
-- Shows all assignments with time estimates, organized by day
-- Prioritizes based on: due date + time required + grade impact
-- Breaks big tasks into smaller chunks scheduled across days
-- Pulls data automatically from Canvas and Learning Suite
+### Step 1: Chrome Extension Setup ✅ COMPLETE
+Extension runs on Canvas, can read pages and store data locally.
 
----
+### Step 2: Scrape Required Data (NEXT)
+Capture: due dates, assignment type, point value, descriptions — anything that helps estimate time.
 
-## Architecture Decision
-- **Hybrid approach**: Browser extension (scrapes data silently) + Web app (full UI dashboard)
-- Extension syncs to central database → Web app and mobile both read from it
-- Minimal/zero manual setup for users
+### Step 3: Structured Data Storage
+- Store raw scraped pages separately (syllabus, assignment pages, linked pages)
+- Parse and combine all data per class into unified structure
+- Format for easy querying
 
-## Mobile Strategy
-Start with responsive web/PWA, data already in cloud so mobile just reads from database.
-
-## MVP Path
-1. Chrome extension + Web app
-2. PWA for mobile
-3. Native apps if needed
+### Steps 4-5: To be defined
+Likely: AI time estimation, dashboard UI
 
 ---
 
-## Current Implementation Status
+## Key Files
 
-### Chrome Extension (In Progress)
-The extension scrapes Canvas assignment data and displays it in a popup.
-
-**What's Working:**
-- ✅ Extension loads and runs on Canvas pages
-- ✅ Scrapes assignment titles from course/module pages
-- ✅ Finds due dates using `.due_date_display` selector
-- ✅ Parses dates correctly (adds current year to "Jan 27" format)
-- ✅ Stores assignments in `chrome.storage.local`
-- ✅ Displays upcoming assignments in popup (filters past-due)
-- ✅ Clear button to wipe data and re-scrape
-- ✅ Debug logging in both content.js and popup.js
-
-**What's NOT Working Yet:**
-- ❌ Calendar page scraping (dynamic content issues)
-- ❌ Submission/completion status (doesn't know what's turned in)
-- ❌ Learning Suite support (different URL/HTML structure)
-- ❌ Backend/database (currently local storage only)
+| File | Purpose |
+|------|---------|
+| `Planning/vision.md` | Pain points and product philosophy |
+| `Planning/Plan.md` | High-level implementation steps |
+| `Planning/Implementation.md` | Options for each step (to be filled) |
+| `notes.md` | User's research notes |
+| `extension/` | Chrome extension code |
+| `extension/issues.md` | Bug log and debugging history |
 
 ---
 
-## Key Technical Lessons Learned
-
-1. **Canvas HTML selectors vary** - Due dates use `.due_date_display`, not `.due_date`
-2. **JavaScript date parsing quirk** - `new Date("Jan 27")` returns year 2001; must explicitly add current year
-3. **Chrome caches extension scripts** - After code changes, must toggle extension off/on (or click reload), then hard refresh the page
-4. **Debug logging is essential** - Added `📚 DEBUG` and `📚 POPUP DEBUG` console logs to trace data flow
+## Extension Status
+- ✅ Scaffolding complete
+- ✅ Basic scraping works (assignment names, due dates)
+- ✅ Date parsing fixed (adds current year)
+- ✅ Popup displays upcoming assignments
+- ❌ Need more systematic data capture (syllabus, linked pages, etc.)
 
 ---
 
-## How to Continue Development
-
-1. Read this file for context
-2. Read `extension/issues.md` for detailed bug history
-3. Read `extension/README.md` for how the extension works
-4. Check `actionItems.md` for next steps
+## To Continue
+1. Read `Planning/Plan.md` for the high-level steps
+2. Fill in `Planning/Implementation.md` with options for each step
+3. Define Steps 4-5 in Plan.md
